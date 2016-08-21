@@ -4,6 +4,7 @@ import { Card } from './card.enum';
 export const SHUFFLE = 'SHUFFLE';
 export const DRAW = 'DRAW';
 export const RESET = 'RESET';
+export const PLAY_CARD = 'PLAY_CARD';
 
 export interface PlayState {
   deck: Card[];
@@ -58,6 +59,25 @@ function actionShuffleDeck(state: PlayState): PlayState {
   return state;
 }
 
+function actionPlayCard(state: PlayState, player: string, cardIndex: number) {
+  let newPlayers = state.players.map(p => {
+    return (p.name === player) ?
+    {
+      name: p.name,
+      hand: [
+        ... p.hand.slice(0, cardIndex),
+        ... p.hand.slice(cardIndex+1)
+      ],
+      discardPile: [...p.discardPile, p.hand[cardIndex]]
+    } : p;
+  });
+
+  return {
+    deck: state.deck,
+    players: newPlayers
+  }
+}
+
 export const playReducer: ActionReducer<PlayState> = (state: PlayState = INITIAL_STATE, action: Action) => {
   switch (action.type) {
     case SHUFFLE:
@@ -65,6 +85,9 @@ export const playReducer: ActionReducer<PlayState> = (state: PlayState = INITIAL
 
     case DRAW:
       return actionDrawCard(state, action.payload);
+
+    case PLAY_CARD:
+      return actionPlayCard(state, action.payload.player, action.payload.cardIndex);
 
     case RESET:
       return INITIAL_STATE;

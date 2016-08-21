@@ -17,6 +17,9 @@ export class PlayerComponent implements OnInit {
   @Output()
   drawCard = new EventEmitter();
 
+  @Output()
+  playCard = new EventEmitter();
+
   constructor() { }
 
   ngOnInit() {

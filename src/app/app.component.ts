@@ -1,4 +1,9 @@
 import { Component } from '@angular/core';
+import { PlayState } from "./play-area/play-area.reducer";
+
+export interface AppState {
+  play: PlayState;
+}
 
 @Component({
   selector: 'app-root',

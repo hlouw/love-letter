@@ -1,12 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Store } from '@ngrx/store';
-import { PlayState, Player, DRAW, SHUFFLE, RESET } from "./play-area.reducer";
+import { PlayState, Player, DRAW, SHUFFLE, RESET, PLAY_CARD } from "./play-area.reducer";
 import { Card } from "./card.enum";
-
-interface AppState {
-  play: PlayState;
-}
+import { AppState } from "../app.component";
 
 @Component({
   selector: 'app-play-area',
@@ -29,6 +26,10 @@ export class PlayAreaComponent implements OnInit {
 
   drawCard(player: string): void {
     this.store.dispatch({ type: DRAW, payload: player });
+  }
+
+  playCard(player: string, cardIndex: number): void {
+    this.store.dispatch({ type: PLAY_CARD, payload: { player: player, cardIndex: cardIndex }});
   }
 
   shuffle(): void {
