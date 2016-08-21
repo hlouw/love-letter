@@ -36,33 +36,35 @@ const INITIAL_STATE: PlayState = {
   ]
 };
 
+function actionDrawCard(state: PlayState, drawingPlayer: string): PlayState {
+  let topCard = state.deck[0];
+  let remainingCards = state.deck.slice(1);
+  let newPlayers = state.players.map(p => {
+    return (p.name === drawingPlayer) ?
+      {
+        name: p.name,
+        hand: [...p.hand, topCard],
+        discardPile: p.discardPile
+      } : p;
+  });
+
+  return {
+    deck: remainingCards,
+    players: newPlayers
+  };
+}
+
+function actionShuffleDeck(state: PlayState): PlayState {
+  return state;
+}
+
 export const playReducer: ActionReducer<PlayState> = (state: PlayState = INITIAL_STATE, action: Action) => {
   switch (action.type) {
     case SHUFFLE:
-      return {
-        deck: state.deck,
-        players: state.players
-      };
+      return actionShuffleDeck(state);
 
     case DRAW:
-      let drawingPlayer = action.payload;
-      let topCard = state.deck[0];
-      let remainingCards = state.deck.slice(1);
-      let newPlayers = state.players.map(p => {
-        if (p.name === drawingPlayer) {
-          return {
-            name: p.name,
-            hand: [...p.hand, topCard],
-            discardPile: p.discardPile
-          };
-        } else {
-          return p;
-        }
-      });
-      return {
-        deck: remainingCards,
-        players: newPlayers
-      };
+      return actionDrawCard(state, action.payload);
 
     case RESET:
       return INITIAL_STATE;

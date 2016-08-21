@@ -1,3 +1,4 @@
+export * from './/card-name.pipe';
 export * from './home';
 export * from './navigation';
 export * from './new-game';

@@ -11,6 +11,7 @@ import { NavigationComponent } from './navigation/navigation.component';
 import { PlayerComponent } from './player/player.component';
 import { DeckComponent } from './deck/deck.component';
 import { HomeComponent } from './home/home.component';
+import { CardNamePipe } from './shared';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import { HomeComponent } from './home/home.component';
     NavigationComponent,
     PlayerComponent,
     DeckComponent,
-    HomeComponent
+    HomeComponent,
+    CardNamePipe
   ],
   imports: [
     BrowserModule,
