@@ -1,0 +1,15 @@
+<div>
+  <div class="row">
+    <app-deck [deck]="deck | async"></app-deck>
+  </div>
+
+  <div class="row">
+    <div class="col-md-4" *ngFor="let player of (players | async)">
+      <app-player [player]="player" (drawCard)="drawCard(player.name)"></app-player>
+    </div>
+  </div>
+
+  <div class="row">
+    <button type="button" class="btn btn-danger" (click)="resetGame()">Reset</button>
+  </div>
+</div>

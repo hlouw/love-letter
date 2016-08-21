@@ -1,0 +1,9 @@
+<h2>{{player.name}}</h2>
+
+<h4>Hand</h4>
+
+<button type="button" class="btn btn-default" (click)="drawCard.emit()">Draw</button>
+
+<ul>
+  <li *ngFor="let card of player.hand">{{ card }}</li>
+</ul>
