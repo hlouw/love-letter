@@ -37,6 +37,26 @@ const INITIAL_STATE: PlayState = {
   ]
 };
 
+
+export const playReducer: ActionReducer<PlayState> = (state: PlayState = INITIAL_STATE, action: Action) => {
+  switch (action.type) {
+    case SHUFFLE:
+      return actionShuffleDeck(state);
+
+    case DRAW:
+      return actionDrawCard(state, action.payload);
+
+    case PLAY_CARD:
+      return actionPlayCard(state, action.payload.player, action.payload.cardIndex);
+
+    case RESET:
+      return INITIAL_STATE;
+
+    default:
+      return state;
+  }
+};
+
 function actionDrawCard(state: PlayState, drawingPlayer: string): PlayState {
   let topCard = state.deck[0];
   let remainingCards = state.deck.slice(1);
@@ -53,10 +73,6 @@ function actionDrawCard(state: PlayState, drawingPlayer: string): PlayState {
     deck: remainingCards,
     players: newPlayers
   };
-}
-
-function actionShuffleDeck(state: PlayState): PlayState {
-  return state;
 }
 
 function actionPlayCard(state: PlayState, player: string, cardIndex: number) {
@@ -78,21 +94,23 @@ function actionPlayCard(state: PlayState, player: string, cardIndex: number) {
   }
 }
 
-export const playReducer: ActionReducer<PlayState> = (state: PlayState = INITIAL_STATE, action: Action) => {
-  switch (action.type) {
-    case SHUFFLE:
-      return actionShuffleDeck(state);
+function actionShuffleDeck(state: PlayState): PlayState {
+  if (state.deck.length <= 1) return state;
 
-    case DRAW:
-      return actionDrawCard(state, action.payload);
+  let array = [...state.deck];
 
-    case PLAY_CARD:
-      return actionPlayCard(state, action.payload.player, action.payload.cardIndex);
-
-    case RESET:
-      return INITIAL_STATE;
-
-    default:
-      return state;
+  for (let i = 0; i < array.length; i++) {
+    const randomChoiceIndex = getRandom(i, array.length - 1);
+    [array[i], array[randomChoiceIndex]] = [array[randomChoiceIndex], array[i]];
   }
-};
+
+  return {
+    deck: array,
+    players: state.players
+  };
+}
+
+function getRandom(floor:number, ceiling:number) {
+  return Math.floor(Math.random() * (ceiling - floor + 1)) + floor;
+}
+
