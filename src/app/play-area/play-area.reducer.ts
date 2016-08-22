@@ -97,15 +97,15 @@ function actionPlayCard(state: PlayState, player: string, cardIndex: number) {
 function actionShuffleDeck(state: PlayState): PlayState {
   if (state.deck.length <= 1) return state;
 
-  let array = [...state.deck];
+  let shuffled = [...state.deck];
 
-  for (let i = 0; i < array.length; i++) {
-    const randomChoiceIndex = getRandom(i, array.length - 1);
-    [array[i], array[randomChoiceIndex]] = [array[randomChoiceIndex], array[i]];
+  for (let i = 0; i < shuffled.length; i++) {
+    const randomChoiceIndex = getRandom(i, shuffled.length - 1);
+    [shuffled[i], shuffled[randomChoiceIndex]] = [shuffled[randomChoiceIndex], shuffled[i]];
   }
 
   return {
-    deck: array,
+    deck: shuffled,
     players: state.players
   };
 }
