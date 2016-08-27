@@ -2,36 +2,36 @@ import { Action } from "@ngrx/store";
 import { Injectable } from "@angular/core";
 
 @Injectable()
-export class PlayAreaActions {
+export class PlayActions {
 
-  static SHUFFLE = 'SHUFFLE';
-  static DRAW = 'DRAW';
-  static RESET = 'RESET';
-  static PLAY_CARD = 'PLAY_CARD';
+  static SHUFFLE = '[Play] Shuffle';
+  static DRAW = '[Play] Draw';
+  static RESET = '[Play] Reset';
+  static PLAY_CARD = '[Play] Play card';
 
   shuffle(): Action {
     return {
-      type: PlayAreaActions.SHUFFLE
+      type: PlayActions.SHUFFLE
     };
   }
 
   draw(player: string): Action {
     return {
-      type: PlayAreaActions.DRAW,
+      type: PlayActions.DRAW,
       payload: player
     }
   }
 
   playCard(player: string, cardIndex: number): Action {
     return {
-      type: PlayAreaActions.PLAY_CARD,
+      type: PlayActions.PLAY_CARD,
       payload: { player: player, cardIndex: cardIndex }
     }
   }
 
   resetGame(): Action {
     return {
-      type: PlayAreaActions.RESET
+      type: PlayActions.RESET
     }
   }
 

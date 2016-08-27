@@ -1,21 +1,21 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Store } from '@ngrx/store';
-import { PlayState, Player, Card } from "../shared";
-import { AppState } from "../../shared";
-import { PlayAreaActions } from "./play-area.actions";
+import { PlayState, Player, Card } from "./shared";
+import { PlayActions } from "./play.actions";
+import { AppState } from "../shared";
 
 @Component({
-  selector: 'app-play-area',
-  templateUrl: 'play-area.component.html',
-  styleUrls: ['play-area.component.less']
+  selector: 'app-play',
+  templateUrl: 'play.component.html',
+  styleUrls: ['play.component.less']
 })
-export class PlayAreaComponent implements OnInit {
+export class PlayComponent implements OnInit {
 
   deck: Observable<Card[]>;
   players: Observable<Player[]>;
 
-  constructor(private store: Store<AppState>, private actions: PlayAreaActions) {
+  constructor(private store: Store<AppState>, private actions: PlayActions) {
   }
 
   ngOnInit() {

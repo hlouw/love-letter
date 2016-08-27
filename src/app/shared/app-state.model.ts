@@ -1,5 +1,5 @@
-import {PlayState} from "../play/shared";
+import { PlayState } from "../play/shared/play-state.model";
 
 export interface AppState {
-  play: PlayState;
+  play: PlayState
 }

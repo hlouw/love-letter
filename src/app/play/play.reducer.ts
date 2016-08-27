@@ -1,8 +1,8 @@
 import { ActionReducer, Action } from '@ngrx/store';
-import { Card, PlayState } from '../shared';
-import { PlayAreaActions } from "./play-area.actions";
+import { Card, PlayState } from './shared';
+import { PlayActions } from "./play.actions";
 
-export class PlayAreaReducer {
+export class PlayReducer {
 
   private static initialCardSet: Card[] = [
     Card.Guard, Card.Guard, Card.Guard, Card.Guard, Card.Guard,
@@ -16,7 +16,7 @@ export class PlayAreaReducer {
   ];
 
   private static initialState: PlayState = {
-    deck: PlayAreaReducer.initialCardSet,
+    deck: PlayReducer.initialCardSet,
     players: [
       {name: 'Player1', hand: [], discardPile: []},
       {name: 'Player2', hand: [], discardPile: []},
@@ -24,19 +24,19 @@ export class PlayAreaReducer {
     ]
   };
 
-  static playReducer: ActionReducer<PlayState> = (state: PlayState = PlayAreaReducer.initialState, action: Action) => {
+  static reducer: ActionReducer<PlayState> = (state: PlayState = PlayReducer.initialState, action: Action) => {
     switch (action.type) {
-      case PlayAreaActions.SHUFFLE:
-        return PlayAreaReducer.actionShuffleDeck(state);
+      case PlayActions.SHUFFLE:
+        return PlayReducer.actionShuffleDeck(state);
 
-      case PlayAreaActions.DRAW:
-        return PlayAreaReducer.actionDrawCard(state, action.payload);
+      case PlayActions.DRAW:
+        return PlayReducer.actionDrawCard(state, action.payload);
 
-      case PlayAreaActions.PLAY_CARD:
-        return PlayAreaReducer.actionPlayCard(state, action.payload.player, action.payload.cardIndex);
+      case PlayActions.PLAY_CARD:
+        return PlayReducer.actionPlayCard(state, action.payload.player, action.payload.cardIndex);
 
-      case PlayAreaActions.RESET:
-        return PlayAreaReducer.initialState;
+      case PlayActions.RESET:
+        return PlayReducer.initialState;
 
       default:
         return state;
@@ -86,7 +86,7 @@ export class PlayAreaReducer {
     let shuffled = [...state.deck];
 
     for (let i = 0; i < shuffled.length; i++) {
-      const randomChoiceIndex = PlayAreaReducer.getRandom(i, shuffled.length - 1);
+      const randomChoiceIndex = PlayReducer.getRandom(i, shuffled.length - 1);
       [shuffled[i], shuffled[randomChoiceIndex]] = [shuffled[randomChoiceIndex], shuffled[i]];
     }
 

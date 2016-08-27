@@ -4,8 +4,8 @@ import { PlayerComponent } from './player';
 import { DeckComponent } from "./deck";
 import { CardNamePipe } from "./shared";
 import { routing } from "./play.routing";
-import { StoreModule } from "@ngrx/store";
-import { PlayAreaReducer, PlayAreaActions } from "./play-area";
+import { PlayActions } from "./play.actions";
+import { PlayReducer } from "./play.reducer";
 
 @NgModule({
   imports: [
@@ -18,7 +18,10 @@ import { PlayAreaReducer, PlayAreaActions } from "./play-area";
     CardNamePipe
   ],
   providers: [
-    PlayAreaActions
+    PlayActions
   ]
 })
-export class PlayModule { }
+export class PlayModule {
+
+  static reducer = PlayReducer.reducer
+}

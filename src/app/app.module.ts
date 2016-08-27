@@ -6,8 +6,7 @@ import { StoreModule } from "@ngrx/store";
 
 import { AppComponent } from './app.component';
 import { routing } from './app.routing';
-import { PlayModule } from './play';
-import { PlayAreaReducer } from "./play/play-area";
+import { PlayModule, PlayReducer } from './play';
 import { NavigationComponent } from './navigation/navigation.component';
 import { HomeComponent } from './home/home.component';
 
@@ -24,7 +23,7 @@ import { HomeComponent } from './home/home.component';
     PlayModule,
     routing,
     StoreModule.provideStore({
-      play: PlayAreaReducer.playReducer
+      play: PlayModule.reducer
     })
   ],
   providers: [ ],
