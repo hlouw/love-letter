@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { Player } from "../play-area";
+import { Player } from "../shared";
 
 @Component({
   selector: 'app-player',

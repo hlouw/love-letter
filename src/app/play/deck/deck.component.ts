@@ -1,5 +1,5 @@
-import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
-import { Card } from "../play-area";
+import { Component, OnInit, Input } from '@angular/core';
+import { Card } from "../shared";
 
 @Component({
   selector: 'app-deck',
@@ -11,8 +11,7 @@ export class DeckComponent implements OnInit {
   @Input()
   deck: Card[];
 
-  constructor() {
-  }
+  constructor() { }
 
   ngOnInit() {
   }

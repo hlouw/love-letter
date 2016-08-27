@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { Card } from "../play-area";
+import { Card } from "./card.enum";
 
 @Pipe({
   name: 'cardName'
