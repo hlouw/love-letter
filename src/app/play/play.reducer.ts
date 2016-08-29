@@ -1,6 +1,6 @@
 import { ActionReducer, Action } from '@ngrx/store';
 import { Card, PlayState } from './shared';
-import { PlayActions } from "./play.actions";
+import { PlayActions } from './play.actions';
 
 export class PlayReducer {
 
@@ -16,11 +16,12 @@ export class PlayReducer {
   ];
 
   private static initialState: PlayState = {
+    activePlayer: 0,
     deck: PlayReducer.initialCardSet,
     players: [
-      {name: 'Player1', hand: [], discardPile: []},
-      {name: 'Player2', hand: [], discardPile: []},
-      {name: 'Player3', hand: [], discardPile: []}
+      {name: 'Player1', hand: [], discardPile: [], knows: []},
+      {name: 'Player2', hand: [], discardPile: [], knows: []},
+      {name: 'Player3', hand: [], discardPile: [], knows: []}
     ]
   };
 
@@ -38,6 +39,10 @@ export class PlayReducer {
       case PlayActions.RESET:
         return PlayReducer.initialState;
 
+      case PlayActions.NEXT_PLAYER:
+        const nextPlayer = PlayReducer.setNextPlayer(state);
+        return PlayReducer.activePlayerDrawCard(nextPlayer);
+
       default:
         return state;
     }
@@ -46,42 +51,35 @@ export class PlayReducer {
   private static actionDrawCard(state: PlayState, drawingPlayer: string): PlayState {
     const topCard = state.deck[0];
     const remainingCards = state.deck.slice(1);
-    const newPlayers = state.players.map(p => {
-      return (p.name === drawingPlayer) ?
-      {
-        name: p.name,
-        hand: [...p.hand, topCard],
-        discardPile: p.discardPile
-      } : p;
-    });
+    const newPlayers = state.players.map(p => (p.name === drawingPlayer)
+      ? Object.assign({}, p, { hand: [...p.hand, topCard]})
+      : p
+    );
 
-    return {
+    return Object.assign({}, state, {
       deck: remainingCards,
       players: newPlayers
-    };
+    });
   }
 
-  private static actionPlayCard(state: PlayState, player: string, cardIndex: number) {
-    let newPlayers = state.players.map(p => {
-      return (p.name === player) ?
-      {
-        name: p.name,
-        hand: [
-          ... p.hand.slice(0, cardIndex),
-          ... p.hand.slice(cardIndex + 1)
-        ],
-        discardPile: [...p.discardPile, p.hand[cardIndex]]
-      } : p;
-    });
+  private static actionPlayCard(state: PlayState, player: string, cardIndex: number): PlayState {
+    let newPlayers = state.players.map(p => (p.name === player) ? Object.assign({}, p, {
+      hand: [
+        ... p.hand.slice(0, cardIndex),
+        ... p.hand.slice(cardIndex + 1)
+      ],
+      discardPile: [...p.discardPile, p.hand[cardIndex]]
+    }) : p);
 
-    return {
-      deck: state.deck,
+    return Object.assign({}, state, {
       players: newPlayers
-    }
+    });
   }
 
   private static actionShuffleDeck(state: PlayState): PlayState {
-    if (state.deck.length <= 1) return state;
+    if (state.deck.length <= 1) {
+      return state;
+    }
 
     let shuffled = [...state.deck];
 
@@ -90,14 +88,23 @@ export class PlayReducer {
       [shuffled[i], shuffled[randomChoiceIndex]] = [shuffled[randomChoiceIndex], shuffled[i]];
     }
 
-    return {
+    return Object.assign({}, state, {
       deck: shuffled,
-      players: state.players
-    };
+    });
   }
 
   private static getRandom(floor: number, ceiling: number) {
     return Math.floor(Math.random() * (ceiling - floor + 1)) + floor;
+  }
+
+  private static setNextPlayer(state: PlayState): PlayState {
+    return Object.assign({}, state, {
+      activePlayer: (state.activePlayer + 1) % state.players.length
+    });
+  }
+
+  private static activePlayerDrawCard(state: PlayState): PlayState {
+    return PlayReducer.actionDrawCard(state, state.players[state.activePlayer].name);
   }
 
 }

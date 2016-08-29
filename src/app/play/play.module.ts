@@ -23,5 +23,7 @@ import { PlayReducer } from "./play.reducer";
 })
 export class PlayModule {
 
-  static reducer = PlayReducer.reducer
+  static reducers = {
+    play: PlayReducer.reducer
+  };
 }

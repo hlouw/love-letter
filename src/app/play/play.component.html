@@ -2,8 +2,12 @@
 <app-deck [deck]="deck | async"></app-deck>
 
 <div class="row">
-  <div class="col-md-4" *ngFor="let player of (players | async)">
-    <app-player [player]="player" (drawCard)="drawCard(player.name)" (playCard)="playCard(player.name, $event)"></app-player>
+  <div class="col-md-4" *ngFor="let player of (players | async); let i = index">
+    <app-player
+      [active]="isPlayerActive(i) | async"
+      [player]="player"
+      (drawCard)="drawCard(player.name)"
+      (playCard)="playCard(player.name, $event)"></app-player>
   </div>
 </div>
 

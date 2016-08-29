@@ -14,6 +14,9 @@ export class PlayerComponent implements OnInit {
   @Input()
   player: Player;
 
+  @Input()
+  active: boolean;
+
   @Output()
   drawCard = new EventEmitter();
 
