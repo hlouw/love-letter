@@ -6,10 +6,8 @@
     <app-player
       [active]="isPlayerActive(i) | async"
       [player]="player"
-      (drawCard)="drawCard(player.name)"
       (playCard)="playCard(player.name, $event)"></app-player>
   </div>
 </div>
 
 <button type="button" class="btn btn-danger" (click)="resetGame()">Reset</button>
-<button type="button" class="btn btn-warning" (click)="shuffle()">Shuffle</button>

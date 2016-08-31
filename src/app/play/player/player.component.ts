@@ -1,15 +1,12 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { Player } from "../shared";
+import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Player } from '../shared';
 
 @Component({
   selector: 'app-player',
   templateUrl: 'player.component.html',
   styleUrls: ['player.component.less']
 })
-export class PlayerComponent implements OnInit {
-
-  @Input()
-  name: string;
+export class PlayerComponent {
 
   @Input()
   player: Player;
@@ -18,14 +15,8 @@ export class PlayerComponent implements OnInit {
   active: boolean;
 
   @Output()
-  drawCard = new EventEmitter();
-
-  @Output()
   playCard = new EventEmitter();
 
   constructor() { }
-
-  ngOnInit() {
-  }
 
 }

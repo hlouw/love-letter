@@ -1,11 +1,11 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { PlayComponent } from './play.component';
 import { PlayerComponent } from './player';
-import { DeckComponent } from "./deck";
-import { CardNamePipe } from "./shared";
-import { routing } from "./play.routing";
-import { PlayActions } from "./play.actions";
-import { PlayReducer } from "./play.reducer";
+import { DeckComponent } from './deck';
+import { CardNamePipe } from './shared';
+import { routing } from './play.routing';
+import { GameActions, AIService, reducer } from './game';
 
 @NgModule({
   imports: [
@@ -14,16 +14,16 @@ import { PlayReducer } from "./play.reducer";
   ],
   declarations: [
     DeckComponent,
+    PlayComponent,
     PlayerComponent,
     CardNamePipe
   ],
   providers: [
-    PlayActions
+    GameActions,
+    AIService
   ]
 })
 export class PlayModule {
 
-  static reducers = {
-    play: PlayReducer.reducer
-  };
+  static reducers = reducer;
 }

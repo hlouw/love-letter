@@ -15,8 +15,4 @@
     <h5>Discard</h5>
     <ul><li *ngFor="let card of player.discardPile">{{ card | cardName }}</li></ul>
   </div>
-
-  <div class="panel-footer">
-    <button [disabled]="!active" type="button" class="btn btn-default" (click)="drawCard.emit()">Draw</button>
-  </div>
 </div>
