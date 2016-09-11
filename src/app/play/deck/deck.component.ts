@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Card } from "../shared";
+import { Card } from '../shared';
 
 @Component({
   selector: 'app-deck',

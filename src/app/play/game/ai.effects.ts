@@ -1,5 +1,6 @@
-import 'rxjs/add/operator/mapTo';
-import 'rxjs/add/operator/switchMapTo';
+import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/filter';
+import 'rxjs/add/operator/concatMapTo';
 
 import { Injectable } from '@angular/core';
 import { Effect, Actions } from '@ngrx/effects';
@@ -12,10 +13,11 @@ export class AIEffects {
   @Effect()
   playTurn = this.actions
     .ofType(GameActions.TURN_COMPLETE)
-    .mapTo(this.aiService.playCurrentTurn);
+    .switchMapTo(this.aiService.playCurrentTurn());
 
   constructor(
     private actions: Actions,
+    private gameActions: GameActions,
     private aiService: AIService
   ) { }
 }

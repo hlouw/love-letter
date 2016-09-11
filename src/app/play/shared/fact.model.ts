@@ -1,6 +1,6 @@
-import { Card } from "./card.enum";
+import { Card } from './card.enum';
 
 export interface Fact {
-  player: string,
-  hasExact?: Card
+  player: string;
+  hasExact?: Card;
 }

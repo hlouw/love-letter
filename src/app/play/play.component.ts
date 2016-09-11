@@ -32,7 +32,7 @@ export class PlayComponent implements OnInit {
     this.store.dispatch(this.gameActions.playCard(cardIndex));
   }
 
-  resetGame(): void {
+  newGame(): void {
     this.store.dispatch(this.gameActions.newGame(3));
   }
 

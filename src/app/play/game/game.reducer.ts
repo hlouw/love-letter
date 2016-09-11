@@ -54,7 +54,7 @@ export default function (state: GameState = initialState, action: Action): GameS
       });
 
     case GameActions.DRAW_CARD:
-      return handleDrawCard(state, action.payload.player);
+      return drawCard(state, action.payload.player);
 
     case GameActions.TURN_COMPLETE:
       return handleTurnComplete(state);
@@ -82,7 +82,7 @@ function shuffleDeck(deck: Card[]): Card[] {
   return shuffled;
 }
 
-function handleDrawCard(state: GameState, playerIndex: number): GameState {
+function drawCard(state: GameState, playerIndex: number): GameState {
   let updatedPlayer = Object.assign({}, state.players[playerIndex], {
     hand: [
       ... state.players[playerIndex].hand, state.deck[0]
@@ -104,27 +104,17 @@ function getRandom(floor: number, ceiling: number) {
 }
 
 function handleTurnComplete(state: GameState): GameState {
-  // 1. Check win
+  // 1. TODO: Check win
+
   // 2. Rotate player queue
   const rotatedQueue = [... state.playerQueue.slice(1), state.playerQueue[0]];
 
-  // 3. Draw card
+  // 3. Draw card for next player
   const playerIndex = rotatedQueue[0];
-  const currentPlayer = state.players[playerIndex];
-  const updatedPlayer = Object.assign({}, currentPlayer, {
-    hand: [
-      ... currentPlayer.hand, state.deck[0]
-    ]
-  });
+  const cardDrawnState = drawCard(state, playerIndex);
 
-  return Object.assign({}, state, {
-    playerQueue: rotatedQueue,
-    deck: state.deck.slice(1),
-    players: [
-      ... state.players.slice(0, playerIndex),
-      updatedPlayer,
-      ... state.players.slice(playerIndex + 1)
-    ]
+  return Object.assign({}, cardDrawnState, {
+    playerQueue: rotatedQueue
   });
 }
 

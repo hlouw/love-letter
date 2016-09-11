@@ -3,6 +3,7 @@ import gameReducer from './game.reducer';
 
 export { GameState, PlayerGameState, PlayerType } from './game.reducer';
 export * from './game.actions';
+export * from './game.effects';
 export * from './ai.effects';
 export * from './ai.service';
 
