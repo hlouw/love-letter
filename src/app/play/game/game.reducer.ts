@@ -59,6 +59,9 @@ export default function (state: GameState = initialState, action: Action): GameS
     case GameActions.TURN_COMPLETE:
       return handleTurnComplete(state);
 
+    case GameActions.NEXT_TURN:
+      return handleNextTurn(state);
+
     case GameActions.PLAY_CARD:
       return handlePlayCard(state, action.payload.cardIndex);
 
@@ -104,12 +107,21 @@ function getRandom(floor: number, ceiling: number) {
 }
 
 function handleTurnComplete(state: GameState): GameState {
-  // 1. TODO: Check win
+  // TODO: Check win
+  if (state.deck.length === 0) {
+    return Object.assign({}, state, {
+      playerQueue: [0]
+    });
+  } else {
+    return state;
+  }
+}
 
-  // 2. Rotate player queue
+function handleNextTurn(state: GameState): GameState {
+  // Rotate player queue
   const rotatedQueue = [... state.playerQueue.slice(1), state.playerQueue[0]];
 
-  // 3. Draw card for next player
+  // Draw card for next player
   const playerIndex = rotatedQueue[0];
   const cardDrawnState = drawCard(state, playerIndex);
 

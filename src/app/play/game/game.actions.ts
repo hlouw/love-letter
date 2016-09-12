@@ -11,12 +11,13 @@ export class GameActions {
   static BURN_CARD = '[Game] Discard a card from deck';
   static PLAY_CARD = '[Game] Play a card';
   static TURN_COMPLETE = '[Game] Finish current turn';
+  static NEXT_TURN = '[Game] Start next turn';
 
-  newGame(players: number): Action {
+  newGame(numPlayers: number): Action {
     return {
       type: GameActions.NEW_GAME,
       payload: {
-        players
+        numPlayers
       }
     };
   }
@@ -56,6 +57,12 @@ export class GameActions {
   turnComplete(): Action {
     return {
       type: GameActions.TURN_COMPLETE
+    };
+  }
+
+  nextTurn(): Action {
+    return {
+      type: GameActions.NEXT_TURN
     };
   }
 }

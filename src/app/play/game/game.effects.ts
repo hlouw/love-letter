@@ -31,8 +31,15 @@ export class GameEffects {
     .mapTo(this.gameActions.turnComplete());
 
   @Effect()
-  playAITurn = this.actions
+  checkGameOver = this.actions
     .ofType(GameActions.TURN_COMPLETE)
+    .withLatestFrom(this.store.select(s => s.game))
+    .filter((actionState: [Action, GameState]) => actionState[1].playerQueue.length > 1)
+    .mapTo(this.gameActions.nextTurn());
+
+  @Effect()
+  playAITurn = this.actions
+    .ofType(GameActions.NEXT_TURN)
     .withLatestFrom(this.store.select(s => s.game))
     .filter((actionState: [Action, GameState]) => {
       let state = actionState[1];
