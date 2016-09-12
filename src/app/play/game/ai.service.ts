@@ -1,32 +1,17 @@
-import 'rxjs/add/operator/mapTo';
-import 'rxjs/add/operator/filter';
-
-import { Injectable, OnInit } from '@angular/core';
-import { Store, Action } from '@ngrx/store';
-import { Observable } from 'rxjs';
+import { Injectable } from '@angular/core';
+import { Action } from '@ngrx/store';
 
 import { GameActions } from './game.actions';
-import { GameState, PlayerType } from './game.reducer';
+import { GameState } from './game.reducer';
 
 @Injectable()
-export class AIService implements OnInit {
-
-    private gameState: Observable<GameState>;
+export class AIService {
 
     constructor(
-        private store: Store<any>,
         private gameActions: GameActions
     ) { }
 
-    ngOnInit() {
-        this.gameState = this.store.select(s => s.game);
+    playAITurn(action: Action, state: GameState): Action {
+        return this.gameActions.playCard(0);
     }
-
-    playCurrentTurn(): Observable<Action> {
-        return this.gameState
-            .map(s => s.players[s.playerQueue[0]])
-            .filter(player => player.type === PlayerType.AI)
-            .mapTo(this.gameActions.playCard(0));
-    }
-
 }

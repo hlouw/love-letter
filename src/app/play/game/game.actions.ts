@@ -53,6 +53,15 @@ export class GameActions {
     };
   }
 
+  aiPlayCard(cardIndex: number, targetPlayer?: string, targetCard?: Card): Action {
+    return {
+      type: GameActions.DRAW_CARD,
+      payload: {
+        player: cardIndex
+      }
+    };
+  }
+
   turnComplete(): Action {
     return {
       type: GameActions.TURN_COMPLETE

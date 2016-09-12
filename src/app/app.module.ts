@@ -1,16 +1,14 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { HttpModule } from '@angular/http';
 import { StoreModule } from '@ngrx/store';
-import { EffectsModule } from '@ngrx/effects';
 
 import { PlayModule } from './play';
 import { AppComponent } from './app.component';
 import { routing } from './app.routing';
 import { NavigationComponent } from './navigation/navigation.component';
 import { HomeComponent } from './home/home.component';
-import { AIEffects } from './play/game';
 
 @NgModule({
   declarations: [
@@ -20,15 +18,13 @@ import { AIEffects } from './play/game';
   ],
   imports: [
     BrowserModule,
-    CommonModule,
     FormsModule,
+    HttpModule,
     PlayModule,
     routing,
-    StoreModule.provideStore(PlayModule.reducers),
-    EffectsModule.runAfterBootstrap(AIEffects)
+    StoreModule.provideStore(PlayModule.reducers)
   ],
-  providers: [ ],
-  entryComponents: [AppComponent],
+  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

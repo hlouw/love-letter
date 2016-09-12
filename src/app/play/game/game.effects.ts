@@ -21,7 +21,7 @@ export class GameEffects {
     ]);
 
   @Effect()
-  cardPlayed = this.actions
+  endTurn = this.actions
     .ofType(GameActions.PLAY_CARD)
     .mapTo(this.gameActions.turnComplete());
 

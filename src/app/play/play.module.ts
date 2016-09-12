@@ -11,8 +11,8 @@ import { GameActions, AIService, reducer, AIEffects, GameEffects } from './game'
 
 @NgModule({
   declarations: [
-    DeckComponent,
     PlayComponent,
+    DeckComponent,
     PlayerComponent,
     CardNamePipe
   ],
@@ -23,7 +23,8 @@ import { GameActions, AIService, reducer, AIEffects, GameEffects } from './game'
   imports: [
     CommonModule,
     routing,
-    EffectsModule.run(GameEffects)
+    EffectsModule.run(GameEffects),
+    EffectsModule.run(AIEffects)
   ]
 })
 export class PlayModule {
