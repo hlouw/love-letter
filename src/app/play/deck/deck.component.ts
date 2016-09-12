@@ -6,13 +6,11 @@ import { Card } from '../shared';
   templateUrl: 'deck.component.html',
   styleUrls: ['deck.component.less']
 })
-export class DeckComponent implements OnInit {
+export class DeckComponent {
 
   @Input()
   deck: Card[];
 
   constructor() { }
-
-  ngOnInit() {
-  }
+  
 }

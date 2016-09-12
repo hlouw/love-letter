@@ -1,5 +1,5 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { Player } from '../shared';
+import { PlayerGameState } from '../game';
 
 @Component({
   selector: 'app-player',
@@ -9,7 +9,7 @@ import { Player } from '../shared';
 export class PlayerComponent {
 
   @Input()
-  player: Player;
+  player: PlayerGameState;
 
   @Input()
   active: boolean;
