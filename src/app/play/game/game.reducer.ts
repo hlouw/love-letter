@@ -4,8 +4,9 @@ import { Card } from '../shared/card.enum';
 
 export interface GameState {
   playerQueue: number[];
-  players: PlayerGameState[];
   deck: Card[];
+  inProgress: boolean;
+  players: PlayerGameState[];
 }
 
 export enum PlayerType {
@@ -33,6 +34,7 @@ const initialDeck: Card[] = [
 const initialState: GameState = {
   playerQueue: [0, 1, 2],
   deck: initialDeck,
+  inProgress: true,
   players: [
     { name: 'Player1', type: PlayerType.Human, hand: [], discardPile: [] },
     { name: 'Player2', type: PlayerType.AI, hand: [], discardPile: [] },
@@ -41,7 +43,6 @@ const initialState: GameState = {
 };
 
 export default function (state: GameState = initialState, action: Action): GameState {
-
   switch (action.type) {
     case GameActions.SHUFFLE_DECK:
       return Object.assign({}, initialState, {
@@ -72,10 +73,10 @@ export default function (state: GameState = initialState, action: Action): GameS
 
 function shuffleDeck(deck: Card[]): Card[] {
   if (deck.length <= 1) {
-    return [... deck];
+    return [...deck];
   }
 
-  let shuffled = [... deck];
+  let shuffled = [...deck];
 
   for (let i = 0; i < shuffled.length; i++) {
     const randomChoiceIndex = getRandom(i, shuffled.length - 1);
@@ -88,16 +89,16 @@ function shuffleDeck(deck: Card[]): Card[] {
 function drawCard(state: GameState, playerIndex: number): GameState {
   let updatedPlayer = Object.assign({}, state.players[playerIndex], {
     hand: [
-      ... state.players[playerIndex].hand, state.deck[0]
+      ...state.players[playerIndex].hand, state.deck[0]
     ]
   });
 
   return Object.assign({}, state, {
     deck: state.deck.slice(1),
     players: [
-      ... state.players.slice(0, playerIndex),
+      ...state.players.slice(0, playerIndex),
       updatedPlayer,
-      ... state.players.slice(playerIndex + 1)
+      ...state.players.slice(playerIndex + 1)
     ]
   });
 }
@@ -107,10 +108,16 @@ function getRandom(floor: number, ceiling: number) {
 }
 
 function handleTurnComplete(state: GameState): GameState {
-  // TODO: Check win
-  if (state.deck.length === 0) {
+  if (state.playerQueue.length === 1) {
     return Object.assign({}, state, {
-      playerQueue: [0]
+      inProgress: false
+    });
+  } else if (state.deck.length === 0) {
+    // TODO Find player with highest value card
+    // let remainingPlayers = state.playerQueue.map(i => state.players[i]);
+    return Object.assign({}, state, {
+      playerQueue: [0],
+      inProgress: false
     });
   } else {
     return state;
@@ -119,7 +126,7 @@ function handleTurnComplete(state: GameState): GameState {
 
 function handleNextTurn(state: GameState): GameState {
   // Rotate player queue
-  const rotatedQueue = [... state.playerQueue.slice(1), state.playerQueue[0]];
+  const rotatedQueue = [...state.playerQueue.slice(1), state.playerQueue[0]];
 
   // Draw card for next player
   const playerIndex = rotatedQueue[0];
@@ -135,17 +142,17 @@ function handlePlayCard(state: GameState, cardIndex: number): GameState {
   const currentPlayer = state.players[playerIndex];
   const updatedPlayer = Object.assign({}, currentPlayer, {
     hand: [
-      ... currentPlayer.hand.slice(0, cardIndex),
-      ... currentPlayer.hand.slice(cardIndex + 1)
+      ...currentPlayer.hand.slice(0, cardIndex),
+      ...currentPlayer.hand.slice(cardIndex + 1)
     ],
     discardPile: [...currentPlayer.discardPile, currentPlayer.hand[cardIndex]]
   });
 
   return Object.assign({}, state, {
     players: [
-      ... state.players.slice(0, playerIndex),
+      ...state.players.slice(0, playerIndex),
       updatedPlayer,
-      ... state.players.slice(playerIndex + 1)
+      ...state.players.slice(playerIndex + 1)
     ]
   });
 }

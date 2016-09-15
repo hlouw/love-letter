@@ -1,4 +1,6 @@
+import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/mapTo';
+import 'rxjs/add/operator/mergeMapTo';
 import 'rxjs/add/operator/withLatestFrom';
 import 'rxjs/add/operator/filter';
 
@@ -16,7 +18,7 @@ export class GameEffects {
   @Effect()
   newGame = this.actions
     .ofType(GameActions.NEW_GAME)
-    .mergeMap(payload => [
+    .mergeMapTo([
       this.gameActions.shuffleDeck(),
       this.gameActions.burnCard(),
       this.gameActions.drawCard(0),
@@ -34,7 +36,7 @@ export class GameEffects {
   checkGameOver = this.actions
     .ofType(GameActions.TURN_COMPLETE)
     .withLatestFrom(this.store.select(s => s.game))
-    .filter((actionState: [Action, GameState]) => actionState[1].playerQueue.length > 1)
+    .filter((actionState: [Action, GameState]) => actionState[1].inProgress)
     .mapTo(this.gameActions.nextTurn());
 
   @Effect()
@@ -42,11 +44,13 @@ export class GameEffects {
     .ofType(GameActions.NEXT_TURN)
     .withLatestFrom(this.store.select(s => s.game))
     .filter((actionState: [Action, GameState]) => {
-      let state = actionState[1];
-      let newPlayer = state.players[state.playerQueue[0]];
+      const state = actionState[1];
+      const newPlayer = state.players[state.playerQueue[0]];
       return newPlayer.type === PlayerType.AI;
     })
-    .map((actionState: [Action, GameState]) => this.aiService.playAITurn(actionState[0], actionState[1]));
+    .map((actionState: [Action, GameState]) => {
+      return this.aiService.playAITurn(actionState[0], actionState[1]);
+    });
 
   constructor(
     private store: Store<any>,

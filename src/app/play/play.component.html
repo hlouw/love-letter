@@ -5,6 +5,7 @@
   <div class="col-md-4" *ngFor="let player of (players | async); let i = index">
     <app-player
       [active]="isPlayerActive(i) | async"
+      [eliminated]="isEliminated(i) | async"
       [player]="player"
       (playCard)="playCard(player.name, $event)"></app-player>
   </div>

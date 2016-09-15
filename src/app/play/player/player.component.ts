@@ -14,6 +14,9 @@ export class PlayerComponent {
   @Input()
   active: boolean;
 
+  @Input()
+  eliminated: boolean;
+
   @Output()
   playCard = new EventEmitter();
 

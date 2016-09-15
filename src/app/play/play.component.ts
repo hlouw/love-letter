@@ -17,7 +17,10 @@ export class PlayComponent implements OnInit {
   players: Observable<PlayerGameState[]>;
   gameState: Observable<GameState>;
 
-  constructor(private store: Store<any>, private gameActions: GameActions) { }
+  constructor(
+    private store: Store<any>,
+    private gameActions: GameActions
+  ) { }
 
   ngOnInit() {
     this.gameState = this.store.select(s => s.game);
@@ -26,7 +29,11 @@ export class PlayComponent implements OnInit {
   }
 
   isPlayerActive(index: number): Observable<boolean> {
-    return this.gameState.map(s => s.playerQueue[0] === index);
+    return this.gameState.select(game => game.inProgress && (game.playerQueue[0] === index));
+  }
+
+  isEliminated(index: number): Observable<boolean> {
+    return this.gameState.select(game => game.playerQueue.indexOf(index) === -1);
   }
 
   playCard(player: string, cardIndex: number): void {
