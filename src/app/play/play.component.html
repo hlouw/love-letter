@@ -9,6 +9,7 @@
     <app-player
       [active]="isPlayerActive(i) | async"
       [eliminated]="isEliminated(i) | async"
+      [winner]="isWinner(i) | async"
       [player]="player"
       (playCard)="playCard(player.name, $event)"></app-player>
   </div>

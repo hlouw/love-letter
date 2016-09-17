@@ -1,6 +1,15 @@
 
-<div class="panel" [ngClass]="{'panel-danger': eliminated, 'panel-primary': active, 'panel-default': !active && !eliminated}">
-  <div class="panel-heading">{{player.name}}<span *ngIf="eliminated"> X</span></div>
+<div class="panel" [ngClass]="{
+    'panel-danger': eliminated,
+    'panel-success': winner,
+    'panel-primary': active,
+    'panel-default': !active && !eliminated && !winner
+    }">
+  <div class="panel-heading">
+    {{player.name}}
+    <span *ngIf="eliminated"> X</span>
+    <span *ngIf="winner"> WIN</span>
+  </div>
 
   <div class="panel-body">
     <h5>Hand</h5>

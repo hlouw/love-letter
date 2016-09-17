@@ -34,6 +34,10 @@ export class PlayComponent implements OnInit {
     return this.gameState.select(game => game.inProgress && (game.playerQueue[0] === index));
   }
 
+  isWinner(index: number): Observable<boolean> {
+    return this.gameState.select(game => (game.playerQueue.length === 1) && (game.playerQueue.indexOf(index) !== -1));
+  }
+
   isEliminated(index: number): Observable<boolean> {
     return this.gameState.select(game => game.playerQueue.indexOf(index) === -1);
   }
