@@ -5,6 +5,7 @@ import { Card } from '../shared/card.enum';
 export interface GameState {
   playerQueue: number[];
   deck: Card[];
+  burn: Card[];
   inProgress: boolean;
   players: PlayerGameState[];
 }
@@ -34,7 +35,8 @@ const initialDeck: Card[] = [
 const initialState: GameState = {
   playerQueue: [0, 1, 2],
   deck: initialDeck,
-  inProgress: true,
+  burn: [],
+  inProgress: false,
   players: [
     { name: 'Player1', type: PlayerType.Human, hand: [], discardPile: [] },
     { name: 'Player2', type: PlayerType.AI, hand: [], discardPile: [] },
@@ -44,14 +46,20 @@ const initialState: GameState = {
 
 export default function (state: GameState = initialState, action: Action): GameState {
   switch (action.type) {
-    case GameActions.SHUFFLE_DECK:
+    case GameActions.NEW_GAME:
       return Object.assign({}, initialState, {
-        deck: shuffleDeck(initialState.deck)
+        inProgress: true
+      });
+
+    case GameActions.SHUFFLE_DECK:
+      return Object.assign({}, state, {
+        deck: shuffleDeck(state.deck)
       });
 
     case GameActions.BURN_CARD:
       return Object.assign({}, state, {
-        deck: state.deck.slice(1)
+        deck: state.deck.slice(1),
+        burn: [...state.burn, state.deck[0]]
       });
 
     case GameActions.DRAW_CARD:

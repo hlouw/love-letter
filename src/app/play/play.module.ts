@@ -5,6 +5,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { PlayComponent } from './play.component';
 import { PlayerComponent } from './player';
 import { DeckComponent } from './deck';
+import { BurnComponent } from './burn/burn.component';
 import { CardNamePipe } from './shared';
 import { routing } from './play.routing';
 import { GameActions, AIService, reducer, GameEffects } from './game';
@@ -13,6 +14,7 @@ import { GameActions, AIService, reducer, GameEffects } from './game';
   declarations: [
     PlayComponent,
     DeckComponent,
+    BurnComponent,
     PlayerComponent,
     CardNamePipe
   ],

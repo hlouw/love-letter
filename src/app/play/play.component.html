@@ -1,5 +1,8 @@
 
-<app-deck [deck]="deck | async"></app-deck>
+<div class="row">
+  <app-deck class="col-md-6" [deck]="deck | async"></app-deck>
+  <app-burn class="col-md-6" [burn]="burn | async"></app-burn>
+</div>
 
 <div class="row">
   <div class="col-md-4" *ngFor="let player of (players | async); let i = index">

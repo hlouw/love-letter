@@ -14,6 +14,7 @@ import { GameActions, GameState, PlayerGameState } from './game';
 export class PlayComponent implements OnInit {
 
   deck: Observable<Card[]>;
+  burn: Observable<Card[]>;
   players: Observable<PlayerGameState[]>;
   gameState: Observable<GameState>;
 
@@ -25,6 +26,7 @@ export class PlayComponent implements OnInit {
   ngOnInit() {
     this.gameState = this.store.select(s => s.game);
     this.deck = this.gameState.select(s => s.deck);
+    this.burn = this.gameState.select(s => s.burn);
     this.players = this.gameState.select(s => s.players);
   }
 
