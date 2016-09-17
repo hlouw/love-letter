@@ -113,10 +113,12 @@ function handleTurnComplete(state: GameState): GameState {
       inProgress: false
     });
   } else if (state.deck.length === 0) {
-    // TODO Find player with highest value card
-    // let remainingPlayers = state.playerQueue.map(i => state.players[i]);
+    const hands: number[] = state.players.map(p => p.hand[0]);
+    const highest: number = Math.max(...hands);
+    const winner = hands.indexOf(highest);
+
     return Object.assign({}, state, {
-      playerQueue: [0],
+      playerQueue: [winner],
       inProgress: false
     });
   } else {
@@ -125,12 +127,10 @@ function handleTurnComplete(state: GameState): GameState {
 }
 
 function handleNextTurn(state: GameState): GameState {
-  // Rotate player queue
   const rotatedQueue = [...state.playerQueue.slice(1), state.playerQueue[0]];
 
-  // Draw card for next player
-  const playerIndex = rotatedQueue[0];
-  const cardDrawnState = drawCard(state, playerIndex);
+  const nextPlayer = rotatedQueue[0];
+  const cardDrawnState = drawCard(state, nextPlayer);
 
   return Object.assign({}, cardDrawnState, {
     playerQueue: rotatedQueue
