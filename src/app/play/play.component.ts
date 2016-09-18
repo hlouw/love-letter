@@ -3,8 +3,8 @@ import '@ngrx/core/add/operator/select';
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Store } from '@ngrx/store';
-import { Card } from './shared';
-import { GameActions, GameState, PlayerGameState } from './game';
+import { Card } from './shared/card';
+import { GameActions, GameState, PlayerGameState } from './shared/game';
 
 @Component({
   selector: 'app-play',

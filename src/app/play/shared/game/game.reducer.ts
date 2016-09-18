@@ -1,6 +1,6 @@
 import { Action } from '@ngrx/store';
 import { GameActions } from './game.actions';
-import { Card } from '../shared/card.enum';
+import { Card } from '../card';
 
 export interface GameState {
   playerQueue: number[];
@@ -136,7 +136,6 @@ function handleTurnComplete(state: GameState): GameState {
 
 function handleNextTurn(state: GameState): GameState {
   const rotatedQueue = [...state.playerQueue.slice(1), state.playerQueue[0]];
-
   const nextPlayer = rotatedQueue[0];
   const cardDrawnState = drawCard(state, nextPlayer);
 

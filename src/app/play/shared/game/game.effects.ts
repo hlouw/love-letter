@@ -9,7 +9,7 @@ import { Action, Store } from '@ngrx/store';
 import { Effect, Actions } from '@ngrx/effects';
 
 import { GameActions } from './game.actions';
-import { AIService } from './ai.service';
+import { GameService } from './game.service';
 import { GameState, PlayerType } from './game.reducer';
 
 @Injectable()
@@ -28,7 +28,7 @@ export class GameEffects {
     ]);
 
   @Effect()
-  endTurn = this.actions
+  playTurn = this.actions
     .ofType(GameActions.PLAY_CARD)
     .mapTo(this.gameActions.turnComplete());
 
@@ -49,13 +49,13 @@ export class GameEffects {
       return newPlayer.type === PlayerType.AI;
     })
     .map((actionState: [Action, GameState]) => {
-      return this.aiService.playAITurn(actionState[0], actionState[1]);
+      return this.gameService.playAITurn(actionState[1]);
     });
 
   constructor(
     private store: Store<any>,
     private actions: Actions,
     private gameActions: GameActions,
-    private aiService: AIService
+    private gameService: GameService
   ) { }
 }

@@ -2,9 +2,9 @@
 
 import { By }           from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
-import { addProviders, async, inject } from '@angular/core/testing';
+import { async, inject } from '@angular/core/testing';
 import { PlayComponent } from './play.component';
-import { GameActions } from './game';
+import { GameActions } from './shared/game';
 import { Store } from '@ngrx/store';
 
 describe('Component: Play', () => {

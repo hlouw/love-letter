@@ -1,5 +1,5 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { PlayerGameState } from '../game';
+import { PlayerGameState } from '../shared/game';
 
 @Component({
   selector: 'app-player',
