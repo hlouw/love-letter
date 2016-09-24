@@ -1,5 +1,7 @@
+import 'rxjs/add/operator/concat';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/mapTo';
+import 'rxjs/add/operator/mergeMap';
 import 'rxjs/add/operator/mergeMapTo';
 import 'rxjs/add/operator/withLatestFrom';
 import 'rxjs/add/operator/filter';
@@ -28,28 +30,33 @@ export class GameEffects {
     ]);
 
   @Effect()
-  playTurn = this.actions
+  applyCardEffects = this.actions
     .ofType(GameActions.PLAY_CARD)
-    .mapTo(this.gameActions.turnComplete());
+    .withLatestFrom(this.store.select(s => s.game))
+    .mergeMap(([action, state]: [Action, GameState]) => {
+      return [
+        ... this.gameService.cardEffects(action, state),
+        this.gameActions.turnComplete()
+      ];
+    });
 
   @Effect()
-  checkGameOver = this.actions
+  proceedToNextTurn = this.actions
     .ofType(GameActions.TURN_COMPLETE)
     .withLatestFrom(this.store.select(s => s.game))
-    .filter((actionState: [Action, GameState]) => actionState[1].inProgress)
+    .filter(([action, state]: [Action, GameState]) => state.inProgress)
     .mapTo(this.gameActions.nextTurn());
 
   @Effect()
   playAITurn = this.actions
     .ofType(GameActions.NEXT_TURN)
     .withLatestFrom(this.store.select(s => s.game))
-    .filter((actionState: [Action, GameState]) => {
-      const state = actionState[1];
-      const newPlayer = state.players[state.playerQueue[0]];
-      return newPlayer.type === PlayerType.AI;
+    .filter(([action, state]: [Action, GameState]) => {
+      const nextPlayer = state.players[state.playerQueue[0]];
+      return nextPlayer.type === PlayerType.AI;
     })
-    .map((actionState: [Action, GameState]) => {
-      return this.gameService.playAITurn(actionState[1]);
+    .map(([action, state]: [Action, GameState]) => {
+      return this.gameService.playAITurn(state);
     });
 
   constructor(

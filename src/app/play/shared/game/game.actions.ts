@@ -12,13 +12,14 @@ export class GameActions {
   static PLAY_CARD = '[Game] Play a card';
   static TURN_COMPLETE = '[Game] Finish current turn';
   static NEXT_TURN = '[Game] Start next turn';
+  static ELIMINATE_PLAYER = '[Game] Eliminate player';
+  static DISCARD_CARD = '[Game] Eliminate player';
+  static SWAP_CARD = '[Game] Eliminate player';
 
   newGame(numPlayers: number): Action {
     return {
       type: GameActions.NEW_GAME,
-      payload: {
-        numPlayers
-      }
+      payload: { numPlayers }
     };
   }
 
@@ -31,9 +32,7 @@ export class GameActions {
   drawCard(player: number): Action {
     return {
       type: GameActions.DRAW_CARD,
-      payload: {
-        player
-      }
+      payload: { player }
     };
   }
 
@@ -43,7 +42,7 @@ export class GameActions {
     };
   }
 
-  playCard(cardIndex: number, targetPlayer?: string, targetCard?: Card): Action {
+  playCard(cardIndex: number, targetPlayer?: number, targetCard?: Card): Action {
     return {
       type: GameActions.PLAY_CARD,
       payload: {
@@ -63,6 +62,27 @@ export class GameActions {
   nextTurn(): Action {
     return {
       type: GameActions.NEXT_TURN
+    };
+  }
+
+  eliminatePlayer(player: number): Action {
+    return {
+      type: GameActions.ELIMINATE_PLAYER,
+      payload: { player }
+    };
+  }
+
+  discardCard(player: number): Action {
+    return {
+      type: GameActions.DISCARD_CARD,
+      payload: { player }
+    };
+  }
+
+  swapCard(player: number): Action {
+    return {
+      type: GameActions.SWAP_CARD,
+      payload: { player }
     };
   }
 }

@@ -1,0 +1,9 @@
+<div>
+  <ul>
+    <li *ngFor="let card of player.hand; let i = index">
+      <span>{{ card | cardName }}</span>
+      <span *ngIf="active"><button type="button" class="btn btn-sm btn-default" (click)="action.emit(i)">Play</button></span>
+    </li>
+  </ul>
+</div>
+

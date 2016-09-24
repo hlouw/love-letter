@@ -42,8 +42,8 @@ export class PlayComponent implements OnInit {
     return this.gameState.select(game => game.playerQueue.indexOf(index) === -1);
   }
 
-  playCard(player: string, cardIndex: number): void {
-    this.store.dispatch(this.gameActions.playCard(cardIndex));
+  playCard(playerIndex: number, cardIndex: number): void {
+    this.store.dispatch(this.gameActions.playCard(cardIndex, 1, Card.Priest));
   }
 
   newGame(): void {

@@ -4,6 +4,7 @@ import { EffectsModule } from '@ngrx/effects';
 
 import { PlayComponent } from './play.component';
 import { PlayerComponent } from './player';
+import { PlayerActionsComponent } from './player-actions';
 import { DeckComponent } from './deck';
 import { BurnComponent } from './burn';
 import { CardNamePipe } from './shared/card';
@@ -16,6 +17,7 @@ import { GameActions, GameService, reducer, GameEffects } from './shared/game';
     DeckComponent,
     BurnComponent,
     PlayerComponent,
+    PlayerActionsComponent,
     CardNamePipe
   ],
   providers: [

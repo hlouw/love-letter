@@ -74,6 +74,15 @@ export default function (state: GameState = initialState, action: Action): GameS
     case GameActions.PLAY_CARD:
       return handlePlayCard(state, action.payload.cardIndex);
 
+    case GameActions.ELIMINATE_PLAYER:
+      return handleEliminatePlayer(state, action.payload.player);
+
+    case GameActions.SWAP_CARD:
+      return handleSwapCard(state, action.payload.player);
+
+    case GameActions.DISCARD_CARD:
+      return handleDiscardCard(state, action.payload.player);
+
     default:
       return state;
   }
@@ -84,7 +93,7 @@ function shuffleDeck(deck: Card[]): Card[] {
     return [...deck];
   }
 
-  let shuffled = [...deck];
+  const shuffled = [...deck];
 
   for (let i = 0; i < shuffled.length; i++) {
     const randomChoiceIndex = getRandom(i, shuffled.length - 1);
@@ -95,7 +104,7 @@ function shuffleDeck(deck: Card[]): Card[] {
 }
 
 function drawCard(state: GameState, playerIndex: number): GameState {
-  let updatedPlayer = Object.assign({}, state.players[playerIndex], {
+  const updatedPlayer = Object.assign({}, state.players[playerIndex], {
     hand: [
       ...state.players[playerIndex].hand, state.deck[0]
     ]
@@ -116,7 +125,7 @@ function getRandom(floor: number, ceiling: number) {
 }
 
 function handleTurnComplete(state: GameState): GameState {
-  if (state.playerQueue.length === 1) {
+  if (state.players.filter(p => p.hand.length > 0).length === 1) {
     return Object.assign({}, state, {
       inProgress: false
     });
@@ -135,8 +144,15 @@ function handleTurnComplete(state: GameState): GameState {
 }
 
 function handleNextTurn(state: GameState): GameState {
-  const rotatedQueue = [...state.playerQueue.slice(1), state.playerQueue[0]];
-  const nextPlayer = rotatedQueue[0];
+  let rotatedQueue = [...state.playerQueue.slice(1), state.playerQueue[0]];
+
+  // Remove eliminated players from queue
+  for (let k in state.players) {
+    if (state.players[k].hand.length === 0) {
+      rotatedQueue = rotatedQueue.filter(p => p.toString() !== k);
+    }
+  }
+  const nextPlayer = rotatedQueue['0'];
   const cardDrawnState = drawCard(state, nextPlayer);
 
   return Object.assign({}, cardDrawnState, {
@@ -152,7 +168,7 @@ function handlePlayCard(state: GameState, cardIndex: number): GameState {
       ...currentPlayer.hand.slice(0, cardIndex),
       ...currentPlayer.hand.slice(cardIndex + 1)
     ],
-    discardPile: [...currentPlayer.discardPile, currentPlayer.hand[cardIndex]]
+    discardPile: [currentPlayer.hand[cardIndex], ...currentPlayer.discardPile]
   });
 
   return Object.assign({}, state, {
@@ -162,4 +178,28 @@ function handlePlayCard(state: GameState, cardIndex: number): GameState {
       ...state.players.slice(playerIndex + 1)
     ]
   });
+}
+
+function handleEliminatePlayer(state: GameState, playerIndex: number): GameState {
+  const player = state.players[playerIndex];
+  const updatedPlayer = Object.assign({}, player, {
+    hand: [],
+    discardPile: [player.hand[0], ...player.discardPile]
+  });
+
+  return Object.assign({}, state, {
+    players: [
+      ...state.players.slice(0, playerIndex),
+      updatedPlayer,
+      ...state.players.slice(playerIndex + 1)
+    ]
+  });
+}
+
+function handleSwapCard(state: GameState, player: number): GameState {
+  return state;
+}
+
+function handleDiscardCard(state: GameState, player: number): GameState {
+  return state;
 }
