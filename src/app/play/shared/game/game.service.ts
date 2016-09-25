@@ -4,6 +4,7 @@ import { Action } from '@ngrx/store';
 import { GameActions } from './game.actions';
 import { GameState } from './game.reducer';
 import { Card } from '../card';
+import { PlayerAction } from '../../player-actions/player-action';
 
 @Injectable()
 export class GameService {
@@ -22,8 +23,8 @@ export class GameService {
     let actions: Action[] = [];
 
     // const currentPlayer = state.players[state.playerQueue[0]];
-    actions.push(this.gameActions.playCard(0, state.playerQueue['1'], Card.Priest));
-    actions.push(this.gameActions.playCard(1, state.playerQueue['1'], Card.Priest));
+    actions.push(this.gameActions.playCard(0, state.playerQueue[1], Card.Priest));
+    actions.push(this.gameActions.playCard(1, state.playerQueue[1], Card.Priest));
 
     return actions;
   }
@@ -31,16 +32,20 @@ export class GameService {
   cardEffects(action: Action, state: GameState): Action[] {
     const player = state.players[state.playerQueue[0]];
     const cardPlayed: Card = player.discardPile[0];
+    const payload: PlayerAction = action.payload;
     console.log('Card played: ' + cardPlayed);
 
     switch (cardPlayed) {
       case Card.Guard:
         {
-          let targetPlayer: number = action.payload.targetPlayer;
+          let targetPlayer: number = Number(payload.targetPlayer);
+          if (!state.playerQueue.includes(targetPlayer)) {
+            return [];
+          }
+
           let targetHand = state.players[targetPlayer].hand;
-          let guessCard = action.payload.targetCard;
-          if (targetHand.indexOf(guessCard) !== -1) {
-            return [this.gameActions.eliminatePlayer(targetPlayer)];
+          if (targetHand[0] === Number(payload.targetCard)) {
+            return [ this.gameActions.eliminatePlayer(targetPlayer) ];
           } else {
             return [];
           }
@@ -48,13 +53,13 @@ export class GameService {
 
       case Card.Baron:
         {
-          let targetPlayer: number = action.payload.targetPlayer;
+          let targetPlayer: number = payload.targetPlayer;
           let playerCard = player.hand[0];
           let targetCard = state.players[targetPlayer].hand[0];
           if (targetCard > playerCard) {
-            return [this.gameActions.eliminatePlayer(state.playerQueue[0])];
+            return [ this.gameActions.eliminatePlayer(state.playerQueue[0]) ];
           } else if (targetCard < playerCard) {
-            return [this.gameActions.eliminatePlayer(targetPlayer)];
+            return [ this.gameActions.eliminatePlayer(targetPlayer) ];
           } else {
             return [];
           }
@@ -62,10 +67,10 @@ export class GameService {
 
       case Card.Prince:
         {
-          let targetPlayer: number = action.payload.targetPlayer;
+          let targetPlayer: number = payload.targetPlayer;
           let discardedCard = state.players[targetPlayer].hand[0];
           if (discardedCard === Card.Princess) {
-            return [this.gameActions.eliminatePlayer(targetPlayer)];
+            return [ this.gameActions.eliminatePlayer(targetPlayer) ];
           } else {
             return [
               this.gameActions.discardCard(targetPlayer),
@@ -76,8 +81,7 @@ export class GameService {
 
       case Card.King:
         {
-          let targetPlayer: number = action.payload.targetPlayer;
-          return [this.gameActions.swapCard(targetPlayer)];
+          return [ this.gameActions.swapCard(payload.targetPlayer) ];
         }
 
       default:

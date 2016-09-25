@@ -39,8 +39,8 @@ const initialState: GameState = {
   inProgress: false,
   players: [
     { name: 'Player1', type: PlayerType.Human, hand: [], discardPile: [] },
-    { name: 'Player2', type: PlayerType.AI, hand: [], discardPile: [] },
-    { name: 'Player3', type: PlayerType.AI, hand: [], discardPile: [] }
+    { name: 'Player2', type: PlayerType.Human, hand: [], discardPile: [] },
+    { name: 'Player3', type: PlayerType.Human, hand: [], discardPile: [] }
   ]
 };
 
@@ -126,7 +126,9 @@ function getRandom(floor: number, ceiling: number) {
 
 function handleTurnComplete(state: GameState): GameState {
   if (state.players.filter(p => p.hand.length > 0).length === 1) {
+    const winner = state.players.findIndex(p => p.hand.length > 0);
     return Object.assign({}, state, {
+      playerQueue: [winner],
       inProgress: false
     });
   } else if (state.deck.length === 0) {
@@ -152,7 +154,7 @@ function handleNextTurn(state: GameState): GameState {
       rotatedQueue = rotatedQueue.filter(p => p.toString() !== k);
     }
   }
-  const nextPlayer = rotatedQueue['0'];
+  const nextPlayer = rotatedQueue[0];
   const cardDrawnState = drawCard(state, nextPlayer);
 
   return Object.assign({}, cardDrawnState, {

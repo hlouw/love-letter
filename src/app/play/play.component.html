@@ -11,7 +11,7 @@
       [eliminated]="isEliminated(i) | async"
       [winner]="isWinner(i) | async"
       [player]="player"
-      (playCard)="playCard(i, $event)"></app-player>
+      (playCard)="playCard($event)"></app-player>
   </div>
 </div>
 

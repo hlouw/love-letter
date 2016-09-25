@@ -11,8 +11,7 @@
   </div>
 
   <div class="panel-body">
-    <h5>Hand</h5>
-    <app-player-actions [player]="player" [playerQueue]="playerQueue" (action)="playCard.emit($event)"></app-player-actions>
+    <app-player-actions [active]="active" [player]="player" [playerQueue]="playerQueue" (action)="playCard.emit($event)"></app-player-actions>
     <hr>
 
     <h5>Discard</h5>

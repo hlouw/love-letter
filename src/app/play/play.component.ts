@@ -5,6 +5,7 @@ import { Observable } from 'rxjs/Observable';
 import { Store } from '@ngrx/store';
 import { Card } from './shared/card';
 import { GameActions, GameState, PlayerGameState } from './shared/game';
+import { PlayerAction } from './player-actions/player-action';
 
 @Component({
   selector: 'app-play',
@@ -35,15 +36,15 @@ export class PlayComponent implements OnInit {
   }
 
   isWinner(index: number): Observable<boolean> {
-    return this.gameState.select(game => (game.playerQueue.length === 1) && (game.playerQueue.indexOf(index) !== -1));
+    return this.gameState.select(game => (game.playerQueue.length === 1) && (game.playerQueue.includes(index)));
   }
 
   isEliminated(index: number): Observable<boolean> {
-    return this.gameState.select(game => game.playerQueue.indexOf(index) === -1);
+    return this.gameState.select(game => !game.playerQueue.includes(index));
   }
 
-  playCard(playerIndex: number, cardIndex: number): void {
-    this.store.dispatch(this.gameActions.playCard(cardIndex, 1, Card.Priest));
+  playCard(playAction: PlayerAction): void {
+    this.store.dispatch(this.gameActions.playCard(playAction.cardIndex, playAction.targetPlayer, playAction.targetCard));
   }
 
   newGame(): void {
