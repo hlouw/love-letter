@@ -1,6 +1,7 @@
 # Love Letter
 
-[![CircleCI](https://circleci.com/gh/hlouw/love-letter.svg?style=shield)](https://circleci.com/gh/hlouw/love-letter)
+[![Build Status](https://circleci.com/gh/hlouw/love-letter.svg?style=shield)](https://circleci.com/gh/hlouw/love-letter)
+[![Dependency Status](https://david-dm.org/hlouw/love-letter.svg)](https://david-dm.org/hlouw/love-letter.svg)
 
 Deployed here: https://hlouw.github.io/love-letter
 
