@@ -149,11 +149,7 @@ function handleNextTurn(state: GameState): GameState {
   let rotatedQueue = [...state.playerQueue.slice(1), state.playerQueue[0]];
 
   // Remove eliminated players from queue
-  for (let k in state.players) {
-    if (state.players[k].hand.length === 0) {
-      rotatedQueue = rotatedQueue.filter(p => p.toString() !== k);
-    }
-  }
+  rotatedQueue = rotatedQueue.filter(i => state.players[i].hand.length > 0);
   const nextPlayer = rotatedQueue[0];
   const cardDrawnState = drawCard(state, nextPlayer);
 

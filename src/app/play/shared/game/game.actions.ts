@@ -13,8 +13,8 @@ export class GameActions {
   static TURN_COMPLETE = '[Game] Finish current turn';
   static NEXT_TURN = '[Game] Start next turn';
   static ELIMINATE_PLAYER = '[Game] Eliminate player';
-  static DISCARD_CARD = '[Game] Eliminate player';
-  static SWAP_CARD = '[Game] Eliminate player';
+  static DISCARD_CARD = '[Game] Discard card from player hand';
+  static SWAP_CARD = '[Game] Swap cards';
 
   newGame(numPlayers: number): Action {
     return {

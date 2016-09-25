@@ -2,7 +2,7 @@
   <form (ngSubmit)="onPlay()">
     <fieldset [disabled]="!active">
       <div class="form-group">
-        <label>Card</label>
+        <label>Hand</label>
         <div class="radio" *ngFor="let card of player.hand; let i = index">
           <label>
             <input type="radio" name="handCards" [value]="i" [(ngModel)]="model.cardIndex">
