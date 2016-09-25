@@ -1,6 +1,6 @@
 /* tslint:disable:no-unused-variable */
 
-import { addProviders, async, inject } from '@angular/core/testing';
+import { TestBed, inject } from '@angular/core/testing';
 import { CardNamePipe } from './card-name.pipe';
 
 describe('Pipe: CardName', () => {

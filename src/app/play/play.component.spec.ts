@@ -1,8 +1,6 @@
 /* tslint:disable:no-unused-variable */
 
-import { By }           from '@angular/platform-browser';
-import { DebugElement } from '@angular/core';
-import { async, inject } from '@angular/core/testing';
+import { TestBed, inject } from '@angular/core/testing';
 import { PlayComponent } from './play.component';
 import { GameActions } from './shared/game';
 import { Store } from '@ngrx/store';

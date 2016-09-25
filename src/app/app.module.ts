@@ -8,9 +8,8 @@ import { compose } from '@ngrx/core/compose';
 import { PlayModule } from './play';
 import { AppComponent } from './app.component';
 import { routing } from './app.routing';
-import { NavigationComponent } from './navigation/navigation.component';
-import { HomeComponent } from './home/home.component';
-
+import { NavigationComponent } from './navigation';
+import { HomeComponent } from './home';
 
 const stateLogger = reducer => {
   return function (state, action) {

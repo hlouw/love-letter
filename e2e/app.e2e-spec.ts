@@ -7,8 +7,8 @@ describe('love-letter App', function() {
     page = new LoveLetterPage();
   });
 
-  it('should display message saying app works', () => {
+  it('should display message welcoming the user', () => {
     page.navigateTo();
-    expect(page.getParagraphText()).toEqual('app works!');
+    expect(page.getHomeTitleText()).toEqual('Welcome');
   });
 });
