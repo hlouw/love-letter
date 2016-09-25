@@ -1,4 +1,8 @@
-# LoveLetter
+# Love Letter
+
+[![CircleCI](https://circleci.com/gh/hlouw/love-letter.svg?style=shield)](https://circleci.com/gh/hlouw/love-letter)
+
+Deployed here: https://hlouw.github.io/love-letter
 
 This project was generated with [angular-cli](https://github.com/angular/angular-cli) version 1.0.0-beta.15.
 
