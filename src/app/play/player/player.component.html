@@ -14,7 +14,7 @@
     <app-player-actions [active]="active" [player]="player" [playerQueue]="playerQueue" (action)="playCard.emit($event)"></app-player-actions>
     <hr>
 
-    <h5>Discard</h5>
+    <label>Discarded</label>
     <ul><li *ngFor="let card of player.discardPile">{{ card | cardName }}</li></ul>
   </div>
 </div>
