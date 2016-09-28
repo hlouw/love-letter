@@ -11,7 +11,12 @@
   </div>
 
   <div class="panel-body">
-    <app-player-actions [active]="active" [player]="player" [playerQueue]="playerQueue" (action)="playCard.emit($event)"></app-player-actions>
+    <app-player-actions
+      [active]="active"
+      [player]="player"
+      [playerQueue]="playerQueue"
+      (action)="playCard.emit($event)"></app-player-actions>
+
     <hr>
 
     <label>Discarded</label>

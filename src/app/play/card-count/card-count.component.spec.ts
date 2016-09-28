@@ -1,11 +1,11 @@
 /* tslint:disable:no-unused-variable */
 
 import { TestBed, inject } from '@angular/core/testing';
-import { DeckComponent } from './deck.component';
+import { CardCountComponent } from './card-count.component';
 
-describe('Component: Deck', () => {
+describe('Component: CardCount', () => {
   it('should create an instance', () => {
-    let component = new DeckComponent();
+    let component = new CardCountComponent();
     expect(component).toBeTruthy();
   });
 });

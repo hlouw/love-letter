@@ -1,18 +1,20 @@
 
-<div class="row">
-  <app-deck class="col-md-6" [deck]="deck | async"></app-deck>
-  <app-burn class="col-md-6" [burn]="burn | async"></app-burn>
-</div>
-
-<div class="row">
-  <div class="col-md-4" *ngFor="let player of (players | async); let i = index">
-    <app-player
-      [active]="isPlayerActive(i) | async"
-      [eliminated]="isEliminated(i) | async"
-      [winner]="isWinner(i) | async"
-      [player]="player"
-      (playCard)="playCard($event)"></app-player>
+<div class="play-area">
+  <div class="row">
+    <app-card-count class="col-md-6" title="Deck" description="Cards remaining" [cards]="deck | async"></app-card-count>
+    <app-card-count class="col-md-6" title="Burn" description="Burnt cards" [cards]="burn | async"></app-card-count>
   </div>
-</div>
 
-<button type="button" class="btn btn-danger" (click)="newGame()">New Game</button>
+  <div class="row">
+    <div class="col-md-4" *ngFor="let player of (players | async); let i = index">
+      <app-player
+        [active]="isPlayerActive(i) | async"
+        [eliminated]="isEliminated(i) | async"
+        [winner]="isWinner(i) | async"
+        [player]="player"
+        (playCard)="playCard($event)"></app-player>
+    </div>
+  </div>
+
+  <button type="button" class="btn btn-danger" (click)="newGame()">New Game</button>
+</div>

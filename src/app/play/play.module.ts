@@ -8,6 +8,7 @@ import { PlayerComponent } from './player';
 import { PlayerActionsComponent } from './player-actions';
 import { DeckComponent } from './deck';
 import { BurnComponent } from './burn';
+import { CardCountComponent } from './card-count';
 import { CardNamePipe } from './shared/card';
 import { routing } from './play.routing';
 import { GameActions, GameService, reducer, GameEffects } from './shared/game';
@@ -16,6 +17,7 @@ import { GameActions, GameService, reducer, GameEffects } from './shared/game';
   declarations: [
     PlayComponent,
     DeckComponent,
+    CardCountComponent,
     BurnComponent,
     PlayerComponent,
     PlayerActionsComponent,

@@ -23,8 +23,9 @@ export class PlayerComponent {
   @Output()
   playCard = new EventEmitter();
 
-  playerQueue: number[] = [ 0, 1, 2 ];
-
   constructor() { }
 
+  get playerQueue(): number[] {
+    return [ 0, 1, 2 ];
+  }
 }
