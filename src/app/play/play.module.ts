@@ -9,7 +9,7 @@ import { PlayerActionsComponent } from './player-actions';
 import { CardCountComponent } from './card-count';
 import { CardNamePipe } from './shared/card';
 import { routing } from './play.routing';
-import { GameActions, GameService, reducer, GameEffects } from './shared/game';
+import { GameActions, GameService, GameEffects } from './shared/game';
 
 @NgModule({
   declarations: [
@@ -30,7 +30,4 @@ import { GameActions, GameService, reducer, GameEffects } from './shared/game';
     EffectsModule.run(GameEffects)
   ]
 })
-export class PlayModule {
-
-  static reducers = reducer;
-}
+export class PlayModule { }

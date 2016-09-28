@@ -3,5 +3,5 @@ import { ModuleWithProviders } from '@angular/core';
 import { PlayComponent } from './play.component';
 
 export const routing: ModuleWithProviders = RouterModule.forChild([
-  { path: 'play', component: PlayComponent}
+  { path: '', component: PlayComponent}
 ]);

@@ -1,4 +1,5 @@
 import '@ngrx/core/add/operator/select';
+import { compose } from '@ngrx/core/compose';
 
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
@@ -6,6 +7,16 @@ import { Store } from '@ngrx/store';
 import { Card } from './shared/card';
 import { GameActions, GameState, PlayerGameState } from './shared/game';
 import { PlayerAction } from './player-actions/player-action';
+import { reducer } from './shared/game';
+
+const stateLogger = reducer => {
+  return function (state, action) {
+    console.log('Action: ' + JSON.stringify(action));
+    const nextState = reducer(state, action);
+    console.log('State: ' + JSON.stringify(nextState));
+    return nextState;
+  };
+};
 
 @Component({
   selector: 'app-play',
@@ -25,6 +36,7 @@ export class PlayComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.store.replaceReducer(compose(stateLogger)(reducer));
     this.gameState = this.store.select(s => s.game);
     this.deck = this.gameState.select(s => s.deck);
     this.burn = this.gameState.select(s => s.burn);

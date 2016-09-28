@@ -3,22 +3,11 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { StoreModule } from '@ngrx/store';
-import { compose } from '@ngrx/core/compose';
 
-import { PlayModule } from './play';
 import { AppComponent } from './app.component';
 import { routing } from './app.routing';
 import { NavigationComponent } from './navigation';
 import { HomeComponent } from './home';
-
-const stateLogger = reducer => {
-  return function (state, action) {
-    console.log('Action: ' + JSON.stringify(action));
-    const nextState = reducer(state, action);
-    console.log('State: ' + JSON.stringify(nextState));
-    return nextState;
-  };
-};
 
 @NgModule({
   declarations: [
@@ -30,9 +19,8 @@ const stateLogger = reducer => {
     BrowserModule,
     FormsModule,
     HttpModule,
-    PlayModule,
     routing,
-    StoreModule.provideStore(compose(stateLogger)(PlayModule.reducers))
+    StoreModule.provideStore({})
   ],
   providers: [],
   bootstrap: [AppComponent]
