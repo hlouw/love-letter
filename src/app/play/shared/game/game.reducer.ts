@@ -179,6 +179,14 @@ function handlePlayCard(state: GameState, cardIndex: number): GameState {
 }
 
 function handleEliminatePlayer(state: GameState, playerIndex: number): GameState {
+  return handleDiscardCard(state, playerIndex);
+}
+
+function handleSwapCard(state: GameState, player: number): GameState {
+  return state;
+}
+
+function handleDiscardCard(state: GameState, playerIndex: number): GameState {
   const player = state.players[playerIndex];
   const updatedPlayer = Object.assign({}, player, {
     hand: [],
@@ -192,12 +200,4 @@ function handleEliminatePlayer(state: GameState, playerIndex: number): GameState
       ...state.players.slice(playerIndex + 1)
     ]
   });
-}
-
-function handleSwapCard(state: GameState, player: number): GameState {
-  return state;
-}
-
-function handleDiscardCard(state: GameState, player: number): GameState {
-  return state;
 }
