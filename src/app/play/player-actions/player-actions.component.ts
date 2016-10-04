@@ -1,4 +1,5 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
 
 import { PlayerGameState } from '../shared/game';
 import { Card } from '../shared/card';
@@ -8,7 +9,7 @@ import { PlayerAction } from './player-action';
   selector: 'app-player-actions',
   templateUrl: 'player-actions.component.html'
 })
-export class PlayerActionsComponent {
+export class PlayerActionsComponent implements OnInit {
 
   @Input()
   active: boolean;
@@ -22,42 +23,68 @@ export class PlayerActionsComponent {
   @Output()
   action = new EventEmitter();
 
-  model: PlayerAction = new PlayerAction();
+  targetCardOptions: Card[];
+  readyToPlay: boolean;
 
-  constructor() { }
+  formGroup: FormGroup;
 
-  onPlay(): void {
-    this.action.emit(this.model);
-    this.model = new PlayerAction();
+  constructor(private fb: FormBuilder) { }
+
+  ngOnInit(): void {
+    this.formGroup = this.fb.group({
+      cardIndex: '',
+      targetPlayer: this.fb.control({value: '', disabled: true}),
+      targetCard: this.fb.control({value: '', disabled: true})
+    });
+
+    this.formGroup.get('cardIndex').valueChanges.subscribe(data => this.onCardSelected(data));
+    this.formGroup.valueChanges.subscribe(data => this.onValueChanged(data));
+
+    this.onCardSelected();
+    this.onValueChanged();
   }
 
-  private get selectedCard(): Card {
-    return this.player.hand[this.model.cardIndex];
-  }
+  onCardSelected(cardIndex?: number): void {
+    if (!this.formGroup || cardIndex == null) { return; }
 
-  get canTargetPlayers(): boolean {
-    return [ Card.Guard, Card.Priest, Card.Baron, Card.Prince, Card.King ].includes(this.selectedCard);
-  }
+    const form = this.formGroup;
+    const selectedCard = this.player.hand[cardIndex];
 
-  get canChooseTargetCard(): boolean {
-    return this.targetCardOptions.length > 0;
-  }
+    if (this.canTargetPlayers(selectedCard)) {
+      form.get('targetPlayer').enable();
+    } else {
+      form.get('targetPlayer').disable();
+    }
 
-  get targetCardOptions(): Card[] {
-    switch (this.selectedCard) {
+    switch (selectedCard) {
       case Card.Guard:
-        return [ Card.Priest, Card.Baron, Card.Handmaid, Card.Prince, Card.King, Card.Countess, Card.Princess ];
+        this.targetCardOptions = [ Card.Priest, Card.Baron, Card.Handmaid, Card.Prince, Card.King, Card.Countess, Card.Princess ];
+        form.get('targetCard').enable();
+        break;
 
       default:
-        return [];
+        this.targetCardOptions = [];
+        form.get('targetCard').disable();
     }
   }
 
-  get readyToPlay(): boolean {
-    let cardOK: boolean = (this.model.cardIndex != null);
-    let targetPlayerOK: boolean = !this.canTargetPlayers || (this.model.targetPlayer != null);
-    let targetCardOK: boolean = !this.canChooseTargetCard || (this.model.targetCard != null);
-    return cardOK && targetPlayerOK && targetCardOK;
+  onValueChanged(data?: any): void {
+    if (!this.formGroup) { return; }
+    const form = this.formGroup;
+
+    let cardOK = (form.get('cardIndex').value !== '');
+    let targetPlayerOK = (form.get('targetPlayer').disabled || form.get('targetPlayer').value !== '');
+    let targetCardOK = (form.get('targetCard').disabled || form.get('targetCard').value !== '');
+    this.readyToPlay = cardOK && targetPlayerOK && targetCardOK;
   }
 
+  onPlay(): void {
+    let model: PlayerAction = this.formGroup.value;
+    this.action.emit(model);
+    this.formGroup.reset();
+  }
+
+  private canTargetPlayers(card: Card): boolean {
+    return [ Card.Guard, Card.Priest, Card.Baron, Card.Prince, Card.King ].includes(card);
+  }
 }

@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { EffectsModule } from '@ngrx/effects';
-import { FormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 
 import { PlayComponent } from './play.component';
 import { PlayerComponent } from './player';
@@ -25,7 +25,7 @@ import { GameActions, GameService, GameEffects } from './shared/game';
   ],
   imports: [
     CommonModule,
-    FormsModule,
+    ReactiveFormsModule,
     routing,
     EffectsModule.run(GameEffects)
   ]
