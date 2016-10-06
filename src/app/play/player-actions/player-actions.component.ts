@@ -87,4 +87,8 @@ export class PlayerActionsComponent implements OnInit {
   private canTargetPlayers(card: Card): boolean {
     return [ Card.Guard, Card.Priest, Card.Baron, Card.Prince, Card.King ].includes(card);
   }
+
+  playerButtonToggled(player: number): boolean {
+    return player === this.formGroup.get('targetPlayer').value;
+  }
 }

@@ -1,31 +1,30 @@
+<form [formGroup]="formGroup" (ngSubmit)="onPlay()">
+  <div class="form-group">
+    <label>Hand</label>
+    <div class="radio" *ngFor="let card of player.hand; let i = index">
+      <label>
+        <input type="radio" [value]="i" formControlName="cardIndex">
+        {{ card | cardName }}
+      </label>
+    </div>
+  </div>
 
-  <form [formGroup]="formGroup" (ngSubmit)="onPlay()">
-    <div class="form-group">
-      <label>Hand</label>
-      <div class="radio" *ngFor="let card of player.hand; let i = index">
-        <label>
-          <input type="radio" [value]="i" formControlName="cardIndex">
-          {{ card | cardName }}
+  <div class="form-group">
+    <label>Target Player</label>
+    <div class="btn-group" data-toggle="buttons">
+        <label *ngFor="let p of playerQueue" class="btn btn-default" [ngClass]="{ active: playerButtonToggled(p) }">
+          <input type="radio" [value]="p" formControlName="targetPlayer">
+          Player{{ p + 1 }}
         </label>
-      </div>
     </div>
+  </div>
 
-    <div class="form-group">
-      <label>Target Player</label>
-      <div class="radio" *ngFor="let p of playerQueue">
-        <label>
-            <input type="radio" [value]="p" formControlName="targetPlayer">
-            Player{{ p + 1 }}
-        </label>
-      </div>
-    </div>
+  <div class="form-group">
+    <label>Target Card</label>
+    <select class="form-control" name="targetCard" formControlName="targetCard">
+      <option *ngFor="let c of targetCardOptions" [value]="c">{{ c | cardName }}</option>
+    </select>
+  </div>
 
-    <div class="form-group">
-      <label>Target Card</label>
-      <select class="form-control" name="targetCard" formControlName="targetCard">
-        <option *ngFor="let c of targetCardOptions" [value]="c">{{ c | cardName }}</option>
-      </select>
-    </div>
-
-    <button type="submit" class="btn btn-primary" [disabled]="!readyToPlay">Play</button>
-  </form>
+  <button type="submit" class="btn btn-primary" [disabled]="!readyToPlay">Play</button>
+</form>
