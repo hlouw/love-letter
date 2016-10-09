@@ -12,7 +12,7 @@
   <div class="form-group">
     <label>Target Player</label>
     <div class="btn-group" data-toggle="buttons">
-        <label *ngFor="let p of playerQueue" class="btn btn-default" [ngClass]="{ active: playerButtonToggled(p) }">
+        <label *ngFor="let p of playerQueue" class="btn btn-default" [class.active]="playerButtonToggled(p)">
           <input type="radio" [value]="p" formControlName="targetPlayer">
           Player{{ p + 1 }}
         </label>
