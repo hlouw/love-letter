@@ -1,12 +1,12 @@
 
 <div class="play-area">
   <div class="row">
-    <app-card-count class="col-md-6" title="Deck" description="Cards remaining" [cards]="deck | async"></app-card-count>
-    <app-card-count class="col-md-6" title="Burn" description="Burnt cards" [cards]="burn | async"></app-card-count>
+    <app-card-count class="col-xs-6" title="Deck" description="Cards remaining" [cards]="deck | async"></app-card-count>
+    <app-card-count class="col-xs-6" title="Burn" description="Burnt cards" [cards]="burn | async"></app-card-count>
   </div>
 
   <div class="row">
-    <div class="col-md-4" *ngFor="let player of (players | async); let i = index">
+    <div class="col-md-4 col-sm-6" *ngFor="let player of (players | async); let i = index">
       <app-player
         [active]="isPlayerActive(i) | async"
         [eliminated]="isEliminated(i) | async"
